@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo for ShorthandDate</title>
+    <script src="../lib/ShorthandDate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // create the ShorthandDate object
+            var shDate = new ShorthandDate();
+
+            // dialog for error reporting
+            $( "#dialog" ).dialog({
+                autoOpen: false,
+                modal: true
+            });
+
+
+            // add stuff here
+            $("[name='date1']").change( function() {
+                var dateString = $(this).val();
+                if (dateString.length > 0) {
+                    var isoDateStr = shDate.getISODate(dateString);
+                    if (isoDateStr != undefined) {
+                        console.log("Setting date to " + isoDateStr);
+                        $(this).val(isoDateStr);
+                    }
+                    else {
+                        console.log("Could not create date from string " + dateString);
+                        $(this).val("");
+                        $("#dialog").text("Could not create date from string '" + dateString +"'")
+                            .dialog("open");
+                    }
+                }
+                else {
+                    console.log("No value found");
+                }
+            });
+       });
+    </script>
+
+</head>
+<body>
+<div>
+    <h2>Enter dates using any of the shortcuts</h2>
+    <form>
+        Enter Date:
+        <input type="text" name="date1">
+    </form>
+</div>
+<div id="dialog" title="Error"></div>
+
+
+</body>
+</html>
